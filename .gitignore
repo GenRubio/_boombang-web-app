@@ -8,7 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-public/static14/flash_esp/dswmedia
+/public/static14/flash_esp/dswmedia/*
 .DS_Store
 dist
 dist-ssr
@@ -26,5 +26,4 @@ coverage
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
 .env
