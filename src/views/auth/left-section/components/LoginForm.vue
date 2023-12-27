@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import http from "@/services/http.service";
-import { useAuth } from "@/store/auth.store";
+import { useAuth } from "../../../../store/auth.store";
 import router from '@/router';
 
 const auth = useAuth();
@@ -13,16 +13,28 @@ const userData = ref({
 
 async function login() {
   try {
-    const { data } = await http.post("http://localhost:8000/api/auth/login", userData.value);
-    auth.setToken(data.token);
-    auth.setUser(data.user);
+    const response = await http.post("http://localhost:8000/api/auth/login", userData.value);
+    const data = response.data;
+
+    console.log('Response data:', data); // Add this line to inspect the structure
+
+    auth.setToken(data.access_token);
+    auth.setUser(data); 
     auth.setIsAuth(true);
 
-    router.push('/dashboard');
+;
+    router.push({
+      name: 'Game',
+      params: {
+        access_token: auth.getToken(),
+        socket_token: auth.getUser().socket_token,
+      },
+    });
   } catch (error) {
-    console.log(error?.response?.data);
+    console.log('Error:', error);
   }
 }
+
 </script>
 
 <template>

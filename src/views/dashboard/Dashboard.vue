@@ -1,22 +1,25 @@
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 document.title = "Dashboard";
 const { ipcRenderer } = require("electron");
 
-onMounted(() => {
-  const access_token = $route.params.access_token;
-  const socket_token = $route.params.socket_token;
-});
+const router = useRouter();
+const routeParams = ref(router.currentRoute.value.params);
 
 const openGame = () => {
-  const router = useRouter();
-  const access_token = $route.params.access_token;
-  const socket_token = $route.params.socket_token;
+
+  const access_token = routeParams.value.access_token;
+  const socket_token = routeParams.value.socket_token;
+
+
+  console.log("TOKEN EN DASHBOARD",access_token);
+  console.log("Socket token en dashboard",socket_token)
+
 
   router.push({
-    name: 'game',
+    name: 'Game',
     params: {
       access_token: access_token,
       socket_token: socket_token

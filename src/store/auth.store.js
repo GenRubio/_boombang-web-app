@@ -4,9 +4,8 @@ import http from '@/services/http.service';
 import router from '../router';
 
 export const useAuth = defineStore('auth', () => {
-
     const token = ref(localStorage.getItem("token"));
-    const user = ref(JSON.parse(localStorage.getItem("user")));
+    const user = ref(getParsedUser()); 
     const isAuth = ref(false);
 
     function setToken(tokenValue) {
@@ -19,20 +18,28 @@ export const useAuth = defineStore('auth', () => {
         user.value = userValue;
     }
 
+    function getToken() {
+        return token.value;
+    }
+
+    function getUser() {
+        return user.value;
+    }
+
     function setIsAuth(auth) {
         isAuth.value = auth;
     }
 
     const isAuthenticated = computed(() => {
         return token.value && user.value;
-    })
+    });
 
     const fullName = computed(() => {
         if (user.value) {
             return user.value.firstName + ' ' + user.value.lastName;
         }
         return '';
-    })
+    });
 
     async function checkToken() {
         try {
@@ -50,12 +57,17 @@ export const useAuth = defineStore('auth', () => {
         }
     }
 
+    function getParsedUser() {
+        const userString = localStorage.getItem("user");
+        return userString ? JSON.parse(userString) : null;
+    }
+
     function clear() {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         isAuth.value = false;
         token.value = '';
-        user.value = '';
+        user.value = null;
     }
 
     return {
@@ -63,12 +75,13 @@ export const useAuth = defineStore('auth', () => {
         user,
         setToken,
         setUser,
+        getToken,
+        getUser,
         checkToken,
         isAuthenticated,
         fullName,
         clear,
         setIsAuth,
         isAuth
-    }
-
-})
+    };
+});

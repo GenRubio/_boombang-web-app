@@ -1,14 +1,21 @@
 <script setup>
-import { onMounted,ref } from "vue";
+import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const access_token = ref("");
 const socket_token = ref("");
 
-document.title = 'Game'
+const routeParams = ref(router.currentRoute.value.params);
+
+document.title = "Game";
+
 onMounted(() => {
 
-  access_token.value = $route.params.access_token;
-  socket_token.value = $route.params.socket_token;
+  console.log(routeParams.value)
+
+  access_token.value = routeParams.value.access_token;
+  socket_token.value = routeParams.value.socket_token;
 
   var flashvars = {
     sw1: "13247",
@@ -19,8 +26,8 @@ onMounted(() => {
     lang: "esp",
     locale: "es_ES",
     ver: "1325245546",
-    attr1: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MDM2NDEzODYsImV4cCI6MTcwMzY0NDk4NiwibmJmIjoxNzAzNjQxMzg2LCJqdGkiOiJva0VnRm5MeGZjSTEzWkF6Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.-E8-x3Hre-9dfFcy0hdwB0ewYgPUTxB9wMhzFCViphs",
-    attr2: "a8dda36b-5f79-4ffe-a317-7053be5cf614"
+    attr1: access_token.value,
+    attr2: socket_token.value,
   };
   var params = {
     play: "true",
@@ -45,7 +52,6 @@ onMounted(() => {
     attributes
   );
 });
-
 </script>
 
 <template>

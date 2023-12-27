@@ -11,13 +11,14 @@ const router = createRouter({
             component: () => import('../views/auth/Auth.vue')
         },
         {
-            path: '/dashboard',
-            name: 'Dashbard',
+            path: '/dashboard/:access_token/:socket_token',
+            name: 'Dashboard', 
             component: () => import('../views/dashboard/Dashboard.vue'),
-            meta:{
+            meta: {
                 auth: true
             },
         },
+        
         {
             path:'/game/:access_token/:socket_token',
             name:'Game',
