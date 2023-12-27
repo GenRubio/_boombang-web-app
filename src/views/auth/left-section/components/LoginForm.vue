@@ -13,7 +13,7 @@ const userData = ref({
 
 async function login() {
   try {
-    const { data } = await http.post("/auth/local", userData.value);
+    const { data } = await http.post("http://localhost:8000/api/auth/login", userData.value);
     auth.setToken(data.token);
     auth.setUser(data.user);
     auth.setIsAuth(true);

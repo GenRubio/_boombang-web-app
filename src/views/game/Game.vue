@@ -1,8 +1,15 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted,ref } from "vue";
+
+const access_token = ref("");
+const socket_token = ref("");
 
 document.title = 'Game'
 onMounted(() => {
+
+  access_token.value = $route.params.access_token;
+  socket_token.value = $route.params.socket_token;
+
   var flashvars = {
     sw1: "13247",
     sw2: "0",
@@ -12,8 +19,8 @@ onMounted(() => {
     lang: "esp",
     locale: "es_ES",
     ver: "1325245546",
-    attr1: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MDMxNTcwOTIsImV4cCI6MTcwMzE2MDY5MiwibmJmIjoxNzAzMTU3MDkyLCJqdGkiOiJYeVNmang1UjU4d0lQT2lKIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.8671XlwbjPou6r_vKIJOc3kjHQ6RopTfMuS1U8iWhBA",
-    attr2: "b64a3ec4-216b-4851-afcf-b8855ffce09d"
+    attr1: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MDM2NDEzODYsImV4cCI6MTcwMzY0NDk4NiwibmJmIjoxNzAzNjQxMzg2LCJqdGkiOiJva0VnRm5MeGZjSTEzWkF6Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.-E8-x3Hre-9dfFcy0hdwB0ewYgPUTxB9wMhzFCViphs",
+    attr2: "a8dda36b-5f79-4ffe-a317-7053be5cf614"
   };
   var params = {
     play: "true",
@@ -38,6 +45,7 @@ onMounted(() => {
     attributes
   );
 });
+
 </script>
 
 <template>

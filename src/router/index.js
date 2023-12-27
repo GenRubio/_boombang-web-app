@@ -7,8 +7,8 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            name: 'Game',
-            component: () => import('../views/game/Game.vue'),
+            name: 'Auth',
+            component: () => import('../views/auth/Auth.vue')
         },
         {
             path: '/dashboard',
@@ -19,9 +19,9 @@ const router = createRouter({
             },
         },
         {
-            path: '/auth',
-            name: 'Auth',
-            component: () => import('../views/auth/Auth.vue')
+            path:'/game/:access_token/:socket_token',
+            name:'Game',
+            component: () => import('../views/game/Game.vue'),
         }
     ]
 });
