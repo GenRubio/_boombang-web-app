@@ -1,7 +1,33 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
+document.title = 'Game';
 
-document.title = 'Game'
+const socket = ref(null);
+const jwt = ref(localStorage.getItem("token"));
+
+const connectToWebSocket = () => {
+  socket.value = new WebSocket('ws://localhost:3000/');
+
+  socket.value.onopen = () => {
+    socket.value.send(JSON.stringify({
+      "key": "set-websocket-user",
+      "jwt": jwt.value,
+    }));
+  };
+
+  socket.value.onmessage = (event) => {
+    console.log('WebSocket message received:', event.data);
+  };
+
+  socket.value.onerror = (error) => {
+    console.error('WebSocket error:', error);
+  };
+
+  socket.value.onclose = (event) => {
+    console.log('WebSocket connection closed:', event);
+  };
+};
+
 onMounted(() => {
   var flashvars = {
     sw1: "13247",
@@ -12,8 +38,8 @@ onMounted(() => {
     lang: "esp",
     locale: "es_ES",
     ver: "1325245546",
-    attr1: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MDMxNTcwOTIsImV4cCI6MTcwMzE2MDY5MiwibmJmIjoxNzAzMTU3MDkyLCJqdGkiOiJYeVNmang1UjU4d0lQT2lKIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.8671XlwbjPou6r_vKIJOc3kjHQ6RopTfMuS1U8iWhBA",
-    attr2: "b64a3ec4-216b-4851-afcf-b8855ffce09d"
+    attr1: jwt.value,
+    attr2: jwt.value
   };
   var params = {
     play: "true",
@@ -37,6 +63,7 @@ onMounted(() => {
     params,
     attributes
   );
+  connectToWebSocket();
 });
 </script>
 

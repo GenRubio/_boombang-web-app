@@ -6,7 +6,6 @@ import router from '../router';
 export const useAuth = defineStore('auth', () => {
 
     const token = ref(localStorage.getItem("token"));
-    const user = ref(JSON.parse(localStorage.getItem("user")));
     const isAuth = ref(false);
 
     function setToken(tokenValue) {
@@ -14,24 +13,15 @@ export const useAuth = defineStore('auth', () => {
         token.value = tokenValue;
     }
 
-    function setUser(userValue) {
-        localStorage.setItem('user', JSON.stringify(userValue));
-        user.value = userValue;
-    }
-
     function setIsAuth(auth) {
         isAuth.value = auth;
     }
 
     const isAuthenticated = computed(() => {
-        return token.value && user.value;
-    })
-
-    const fullName = computed(() => {
-        if (user.value) {
-            return user.value.firstName + ' ' + user.value.lastName;
+        if (checkToken() && token.value) {
+            return true;
         }
-        return '';
+        return false;
     })
 
     async function checkToken() {
@@ -42,30 +32,24 @@ export const useAuth = defineStore('auth', () => {
                     Authorization: tokenAuth,
                 },
             });
-            return data;
+            return true;
         } catch (error) {
             clear();
-            router.push('/auth');
-            console.log('error', error.response.data);
+            return false;
         }
     }
 
     function clear() {
         localStorage.removeItem('token');
-        localStorage.removeItem('user');
         isAuth.value = false;
         token.value = '';
-        user.value = '';
     }
 
     return {
         token,
-        user,
         setToken,
-        setUser,
         checkToken,
         isAuthenticated,
-        fullName,
         clear,
         setIsAuth,
         isAuth

@@ -2,9 +2,13 @@
 import { ref } from "vue";
 import http from "@/services/http.service";
 import { useAuth } from "@/store/auth.store";
-import router from '@/router';
+import router from "@/router";
 
 const auth = useAuth();
+
+if (auth.isAuthenticated) {
+  router.push("/game");
+}
 
 const userData = ref({
   email: "",
@@ -13,12 +17,11 @@ const userData = ref({
 
 async function login() {
   try {
-    const { data } = await http.post("/auth/local", userData.value);
-    auth.setToken(data.token);
-    auth.setUser(data.user);
+    const { data } = await http.post("/auth/login", userData.value);
+    auth.setToken(data.access_token);
     auth.setIsAuth(true);
 
-    router.push('/dashboard');
+    router.push("/game");
   } catch (error) {
     console.log(error?.response?.data);
   }

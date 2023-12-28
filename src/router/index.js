@@ -7,21 +7,16 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            name: 'Game',
-            component: () => import('../views/game/Game.vue'),
+            name: 'Auth',
+            component: () => import('../views/auth/Auth.vue')
         },
         {
-            path: '/dashboard',
-            name: 'Dashbard',
-            component: () => import('../views/dashboard/Dashboard.vue'),
+            path: '/game',
+            name: 'Game',
+            component: () => import('../views/game/Game.vue'),
             meta:{
                 auth: true
             },
-        },
-        {
-            path: '/auth',
-            name: 'Auth',
-            component: () => import('../views/auth/Auth.vue')
         }
     ]
 });
