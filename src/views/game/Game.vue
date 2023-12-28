@@ -6,7 +6,7 @@ const socket = ref(null);
 const jwt = ref(localStorage.getItem("token"));
 
 const connectToWebSocket = () => {
-  socket.value = new WebSocket('ws://localhost:3000/');
+  socket.value = new WebSocket(import.meta.env.VITE_API_URL_WS);
 
   socket.value.onopen = () => {
     socket.value.send(JSON.stringify({
