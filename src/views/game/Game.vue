@@ -18,7 +18,7 @@ const connectToWebSocket = () => {
   socket.value.onmessage = (event) => {
     let data = JSON.parse(event.data);
     switch(data.key){
-      case 'ser-in-scenery':
+      case 'user-in-scenery':
         console.log(data.test_1)
         break;
     }
