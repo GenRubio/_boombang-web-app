@@ -16,7 +16,12 @@ const connectToWebSocket = () => {
   };
 
   socket.value.onmessage = (event) => {
-    console.log('WebSocket message received:', event.data);
+    let data = JSON.parse(event.data);
+    switch(data.key){
+      case 'ser-in-scenery':
+        console.log(data.test_1)
+        break;
+    }
   };
 
   socket.value.onerror = (error) => {
