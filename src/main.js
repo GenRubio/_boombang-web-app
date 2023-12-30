@@ -13,6 +13,11 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import 'vue3-carousel/dist/carousel.css';
 import { useAuth } from './store/auth.store';
 
+var userAgent = navigator.userAgent.toLowerCase();
+if (userAgent.indexOf('electron/') > -1 == false) {
+   location.href = 'https://www.google.com/';
+}
+
 library.add(fas, far, fab)
 dom.watch();
 
