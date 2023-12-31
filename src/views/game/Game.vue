@@ -48,6 +48,7 @@ onMounted(() => {
   subscribe((data) => {
     if (data.key === "loading") {
       if (data.loading === true) {
+        localStorage.removeItem('token');
         location.reload();
       } else {
         loading.value = data.loading;
