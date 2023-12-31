@@ -1,37 +1,13 @@
 <script setup>
+import AreasList from "./components/menu/AreasList.vue";
+import { useWebSocket } from "../../services/websocketService";
 import { onMounted, ref } from "vue";
-document.title = 'Game';
+document.title = "Game";
 
 const socket = ref(null);
 const jwt = ref(localStorage.getItem("token"));
-
-const connectToWebSocket = () => {
-  socket.value = new WebSocket(import.meta.env.VITE_API_URL_WS);
-
-  socket.value.onopen = () => {
-    socket.value.send(JSON.stringify({
-      "key": "set-websocket-user",
-      "jwt": jwt.value,
-    }));
-  };
-
-  socket.value.onmessage = (event) => {
-    let data = JSON.parse(event.data);
-    switch(data.key){
-      case 'user-in-scenery':
-        console.log(data.test_1)
-        break;
-    }
-  };
-
-  socket.value.onerror = (error) => {
-    console.error('WebSocket error:', error);
-  };
-
-  socket.value.onclose = (event) => {
-    console.log('WebSocket connection closed:', event);
-  };
-};
+const loading = ref(true);
+const { subscribe } = useWebSocket(jwt.value);
 
 onMounted(() => {
   var flashvars = {
@@ -44,7 +20,7 @@ onMounted(() => {
     locale: "es_ES",
     ver: "1325245546",
     attr1: jwt.value,
-    attr2: jwt.value
+    attr2: jwt.value,
   };
   var params = {
     play: "true",
@@ -68,17 +44,72 @@ onMounted(() => {
     params,
     attributes
   );
-  connectToWebSocket();
+
+  subscribe((data) => {
+    if (data.key === "loading") {
+      if (data.loading === true) {
+        location.reload();
+      } else {
+        loading.value = data.loading;
+      }
+    }
+  });
 });
 </script>
 
 <template>
-  <div id="bb_swf_container">
-    <div id="flash_boombang"></div>
+  <div v-if="loading" class="loading">Cargando...</div>
+  <div class="d-flex">
+    <div class="left-menu d-flex justify-content-start">
+      <div class="left-menu__icons"></div>
+      <div class="left-menu__items">
+        <div class="left-menu__items-search"></div>
+        <div class="scenery-list">
+          <AreasList />
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="flash-top"></div>
+      <div id="bb_swf_container">
+        <div id="flash_boombang"></div>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.loading {
+  position: absolute;
+  width: 1328px;
+  height: 100%;
+  z-index: 999;
+  background-color: #043967;
+}
+.scenery-list {
+  padding: 7px;
+}
+.left-menu__icons {
+  width: 75px;
+  height: 100vh;
+  background-color: #043967;
+}
+.left-menu__items {
+  width: calc(100% - 75px);
+  height: 100vh;
+  background-color: #045383;
+}
+.left-menu__items-search {
+  height: 52px;
+  border-bottom: 1px solid #043967;
+}
+.flash-top {
+  height: 51px;
+  background-color: #04689b;
+}
+.left-menu {
+  width: 316px;
+}
 #bb_swf_container {
   width: 1012px;
   height: 657px;
