@@ -6,10 +6,6 @@ import router from "@/router";
 
 const auth = useAuth();
 
-if (auth.isAuthenticated) {
-  router.push("/game");
-}
-
 const userData = ref({
   email: "",
   password: "",
@@ -18,7 +14,7 @@ const userData = ref({
 async function login() {
   try {
     const { data } = await http.post("/auth/login", userData.value);
-    auth.setToken(data.access_token);
+    localStorage.setItem("token", data.access_token);
     auth.setIsAuth(true);
 
     router.push("/game");
