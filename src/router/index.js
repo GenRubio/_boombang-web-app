@@ -8,7 +8,7 @@ const router = createRouter({
         {
             path: '/',
             name: 'Auth',
-            component: () => import('../views/auth/Auth.vue')
+            component: () => import('../views/auth/Auth.vue'),
         },
         {
             path: '/game',

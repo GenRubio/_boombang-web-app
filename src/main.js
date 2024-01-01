@@ -15,7 +15,7 @@ import { useAuth } from './store/auth.store';
 
 var userAgent = navigator.userAgent.toLowerCase();
 if (userAgent.indexOf('electron/') > -1 == false) {
-   location.href = 'https://www.google.com/';
+    location.href = 'https://www.google.com/';
 }
 
 library.add(fas, far, fab)
@@ -26,6 +26,16 @@ const pinia = createPinia();
 
 app.use(router);
 app.use(pinia);
+
+
+if (window.electron) {
+    const { ipcRenderer } = window.electron;
+    ipcRenderer.on('remove-token', () => {
+        /*const auth = useAuth();
+        auth.clear();
+        console.log('remove-token');*/
+    });
+}
 
 if (localStorage.getItem('token')) {
     (async () => {
