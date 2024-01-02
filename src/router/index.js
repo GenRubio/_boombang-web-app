@@ -9,14 +9,7 @@ const router = createRouter({
             path: '/',
             name: 'Auth',
             component: () => import('../views/auth/Auth.vue'),
-            beforeEnter: (to, from, next) => {
-                const token = localStorage.getItem('token');
-                if (token) {
-                    next('/game');
-                } else {
-                    next();
-                }
-            }
+            beforeEnter: authMiddleware
         },
         {
             path: '/game',

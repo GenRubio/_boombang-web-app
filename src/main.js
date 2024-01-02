@@ -28,15 +28,16 @@ app.use(router);
 app.use(pinia);
 
 
-if (window.electron) {
+/*if (window.electron) {
     const { ipcRenderer } = window.electron;
     ipcRenderer.on('remove-token', () => {
-        /*const auth = useAuth();
+        const auth = useAuth();
         auth.clear();
-        console.log('remove-token');*/
+        console.log('remove-token');
     });
-}
+}*/
 
+/*
 if (localStorage.getItem('token')) {
     (async () => {
         const auth = useAuth();
@@ -47,7 +48,7 @@ if (localStorage.getItem('token')) {
             auth.clear()
         }
     })()
-}
+}*/
 
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.mount('#app');

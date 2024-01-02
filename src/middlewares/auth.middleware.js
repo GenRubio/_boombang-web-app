@@ -1,15 +1,19 @@
+import http from "@/services/http.service";
 export async function authMiddleware(to, from, next) {
     const token = localStorage.getItem('token');
 
-    if (!token) {
+    if (!token && to.path !== '/') {
         return next('/');
     }
-
-    try {
-        await http.post("/auth/verify", {}, { headers: { Authorization: `Bearer ${token}` } });
+    else if ((token && to.path === '/') || (token && to.path === '/game')) {
+        try {
+            await http.post("/auth/verify", {}, { headers: { Authorization: `Bearer ${token}` } });
+            next();
+        } catch (error) {
+            localStorage.removeItem('token');
+            next('/');
+        }
+    }else{
         next();
-    } catch (error) {
-        localStorage.removeItem('token');
-        next('/');
     }
 }
