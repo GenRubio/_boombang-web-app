@@ -20,11 +20,13 @@ export function useWebSocket(jwtToken) {
     };
 
     socket.value.onerror = (error) => {
-      console.error("WebSocket error:", error);
+      localStorage.removeItem('token');
+      location.reload();
     };
 
     socket.value.onclose = (event) => {
-      console.log("WebSocket connection closed:", event);
+      localStorage.removeItem('token');
+      location.reload();
     };
   }
 

@@ -9,6 +9,18 @@ const jwt = ref(localStorage.getItem("token"));
 const loading = ref(true);
 const { subscribe } = useWebSocket(jwt.value);
 
+
+subscribe((data) => {
+    if (data.key === "loading") {
+      if (data.loading === true) {
+        localStorage.removeItem('token');
+        location.reload();
+      } else {
+        loading.value = data.loading;
+      }
+    }
+  });
+
 onMounted(() => {
   var flashvars = {
     sw1: "13247",
@@ -44,17 +56,6 @@ onMounted(() => {
     params,
     attributes
   );
-
-  subscribe((data) => {
-    if (data.key === "loading") {
-      if (data.loading === true) {
-        localStorage.removeItem('token');
-        location.reload();
-      } else {
-        loading.value = data.loading;
-      }
-    }
-  });
 });
 </script>
 
