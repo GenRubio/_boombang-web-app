@@ -20,12 +20,10 @@ export function useWebSocket(jwtToken) {
     };
 
     socket.value.onerror = (error) => {
-      localStorage.removeItem('token');
       location.reload();
     };
 
     socket.value.onclose = (event) => {
-      localStorage.removeItem('token');
       location.reload();
     };
   }
