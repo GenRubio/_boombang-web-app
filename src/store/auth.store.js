@@ -13,7 +13,7 @@ export const useAuth = defineStore('auth', () => {
     async function checkToken() {
         try {
             const tokenAuth = 'Bearer ' + localStorage.getItem("token");
-            const { data } = await http.post("/auth/verify", {
+            const { data } = await http.post("/web/auth/verify", {
                 headers: {
                     Authorization: tokenAuth,
                 },

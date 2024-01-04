@@ -13,7 +13,7 @@ const userData = ref({
 
 async function login() {
   try {
-    const { data } = await http.post("/auth/login", userData.value);
+    const { data } = await http.post("/web/auth/login", userData.value);
     localStorage.setItem("token", data.access_token);
     auth.setIsAuth(true);
 

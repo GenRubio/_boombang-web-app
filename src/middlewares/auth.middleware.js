@@ -7,7 +7,7 @@ export async function authMiddleware(to, from, next) {
     }
     else if ((token && to.path === '/') || (token && to.path === '/game')) {
         try {
-            await http.post("/auth/verify", {}, { headers: { Authorization: `Bearer ${token}` } });
+            await http.post("/web/auth/verify", {}, { headers: { Authorization: `Bearer ${token}` } });
             next();
         } catch (error) {
             localStorage.removeItem('token');
